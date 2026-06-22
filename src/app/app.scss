@@ -1,0 +1,14 @@
+.loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(250, 249, 245, 0.7); /* Nordic Crumb --bg-primary with transparency */
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+}

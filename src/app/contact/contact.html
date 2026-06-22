@@ -1,0 +1,124 @@
+<section class="section contact-section">
+  <div class="container contact-grid">
+    
+    <!-- Contact Info & Minimalist Map -->
+    <div class="contact-info-col">
+      <span class="section-subtitle">Kontakt</span>
+      <h2 class="section-title">Visit Us in the Neighborhood</h2>
+      <p class="contact-lead">We are located on a quiet corner in the historic arts district.</p>
+      
+      <div class="contact-details">
+        <a href="https://www.google.com/maps/search/?api=1&query=456+Sandgatan+Street,+Gothenburg,+Sweden" target="_blank" rel="noopener" class="detail-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="detail-icon">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle>
+          </svg>
+          <span>456 Sandgatan Street, Gothenburg, SE</span>
+        </a>
+        <a href="tel:+15552345678" class="detail-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="detail-icon">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+          <span>+1 (555) 234-5678</span>
+        </a>
+        <a href="mailto:hello@nordiccrumb.com" class="detail-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="detail-icon">
+            <rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M22 7l-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+          </svg>
+          <span>hello@nordiccrumb.com</span>
+        </a>
+      </div>
+      
+      <!-- Stunning, Minimalist Stylized Vector Map -->
+
+        <div id="map"></div>
+      
+    </div>
+    
+    <!-- Reservation Form Wrapper -->
+    <div class="reservation-card-wrapper">
+      @if (!reservationSubmitted()) {
+        <div class="reservation-form-container glass">
+          <h3 class="form-title">Table Reservation</h3>
+          <p class="form-sub">Choose a time for coffee & fresh pastries. Walk-ins are always welcome.</p>
+          
+          <form (submit)="submitReservation()">
+            <div class="form-group">
+              <label class="form-label" for="res-name">Name</label>
+              <input type="text" id="res-name" [(ngModel)]="reservation.name" name="name" required placeholder="Your name" class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label" for="res-email">Email Address</label>
+              <input type="email" id="res-email" [(ngModel)]="reservation.email" name="email" required placeholder="hello@example.com" class="form-control">
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="res-date">Date</label>
+                <input type="date" id="res-date" [(ngModel)]="reservation.date" name="date" required class="form-control">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="res-time">Time</label>
+                <select id="res-time" [(ngModel)]="reservation.time" name="time" class="form-control">
+                  <option value="08:00">08:00 AM</option>
+                  <option value="09:00">09:00 AM</option>
+                  <option value="10:00">10:00 AM</option>
+                  <option value="11:00">11:00 AM</option>
+                  <option value="12:00">12:00 PM</option>
+                  <option value="13:00">01:00 PM</option>
+                  <option value="14:00">02:00 PM</option>
+                  <option value="15:00">03:00 PM</option>
+                  <option value="16:00">04:00 PM</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label" for="res-guests">Number of Guests</label>
+              <select id="res-guests" [(ngModel)]="reservation.guests" name="guests" class="form-control">
+                <option value="1">1 Person</option>
+                <option value="2">2 People</option>
+                <option value="3">3 People</option>
+                <option value="4">4 People</option>
+                <option value="5">5+ (Contact us by phone)</option>
+              </select>
+            </div>
+            
+            <button type="submit" class="btn btn-accent btn-submit">Reserve Table</button>
+          </form>
+        </div>
+      } @else {
+        <!-- Interactive Success Modal Card -->
+        <div class="reservation-success glass text-center animate-fade-in">
+          <div class="success-icon-wrapper">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="success-icon">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+          </div>
+          <h3 class="success-title">Bordet är reserverat!</h3>
+          <p class="success-message">Your table is confirmed, <strong>{{ reservation.name }}</strong>.</p>
+          
+          <div class="success-summary">
+            <div class="summary-row">
+              <span class="summary-label">Date</span>
+              <span class="summary-val">{{ reservation.date }}</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Time</span>
+              <span class="summary-val">{{ reservation.time }} AM/PM</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Guests</span>
+              <span class="summary-val">{{ reservation.guests }} {{ +reservation.guests === 1 ? 'Guest' : 'Guests' }}</span>
+            </div>
+          </div>
+          
+          <p class="success-note">We sent a confirmation email to {{ reservation.email }}. See you soon!</p>
+          
+          <button class="btn btn-primary" (click)="resetReservation()">Book Another Table</button>
+        </div>
+      }
+    </div>
+
+  </div>
+</section>

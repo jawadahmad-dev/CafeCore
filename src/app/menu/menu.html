@@ -1,0 +1,61 @@
+<section class="section menu-section">
+  <div class="container text-center">
+    <span class="section-subtitle">Morgonmeny</span>
+    <h2 class="section-title">Selected Offerings</h2>
+    <p class="section-description">
+      We bake in small batches. Our grains are sourced from local stone-mills, and our butter is direct from family-run Nordic creameries.
+    </p>
+
+    <!-- Category Filters -->
+    <div class="menu-filters">
+      <button class="filter-btn" [class.active]="currentFilter() === 'all'" (click)="setFilter('all')">All Products</button>
+      <button class="filter-btn" [class.active]="currentFilter() === 'bread'" (click)="setFilter('bread')">Sourdough Loaves</button>
+      <button class="filter-btn" [class.active]="currentFilter() === 'pastries'" (click)="setFilter('pastries')">Fika Pastries</button>
+      <button class="filter-btn" [class.active]="currentFilter() === 'coffee'" (click)="setFilter('coffee')">Slow Coffee</button>
+    </div>
+
+    <!-- Single Menu Card -->
+    <div class="single-menu-card glass">
+      <div class="menu-items-list">
+        @for (item of filteredMenuItems(); track item.name; let last = $last) {
+          <div class="menu-item-row" [class.has-divider]="!last">
+            <div class="card-icon-wrapper">
+              @if (item.category === 'bread') {
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M4 11s2.5-3.5 8-3.5 8 3.5 8 3.5-1 6-8 6-8-6-8-6z" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M7 9v4M12 7.5v5M17 9v4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              } @else if (item.category === 'pastries') {
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10S2 17.523 2 12A10 10 0 0 1 12 2z"/>
+                  <path d="M12 6a6 6 0 1 0 0 12 6 6 0 0 0 0-12z"/>
+                  <path d="M12 9a3 3 0 1 1 0 6 3 3 0 0 1 0-6z"/>
+                </svg>
+              } @else {
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M17 8h1a4 4 0 1 1 0 8h-1"/>
+                  <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8z"/>
+                  <path d="M6 2v3M10 2v3M14 2v3"/>
+                </svg>
+              }
+            </div>
+            
+            <div class="item-details text-left">
+              <div class="item-title-row">
+                <h3 class="item-name">{{ item.name }}</h3>
+                @if (item.badge) {
+                  <span class="item-badge">{{ item.badge }}</span>
+                }
+              </div>
+              <p class="item-desc">{{ item.description }}</p>
+            </div>
+            
+            <div class="item-price-col">
+              <span class="item-price">${{ item.price.toFixed(2) }}</span>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,119 @@
+<div class="max-w-5xl mx-auto p-6">
+
+  <p-card styleClass="shadow-lg border-round-2xl">
+
+    <ng-template pTemplate="header">
+      <div class="p-5 border-b">
+        <h2 class="text-2xl font-bold">
+          Update Home Hero Section
+        </h2>
+      </div>
+    </ng-template>
+
+    <div class="grid md:grid-cols-2 gap-8">
+
+      <!-- Preview -->
+      <div class="space-y-4">
+
+        <h3 class="font-semibold text-lg">
+          Live Preview
+        </h3>
+
+        <div
+          class="rounded-2xl overflow-hidden bg-surface-100 shadow-md"
+        >
+          @if(imagePreview){
+          <img
+            [src]="imagePreview"
+            alt="Hero Preview"
+            class="w-full h-72 object-cover"
+          />
+          }
+          @else{
+          <div
+            class="h-72 flex items-center justify-center text-gray-400"
+          >
+            No Image Selected
+          </div>
+          }
+        </div>
+
+        <h2 class="text-3xl font-bold">
+          {{ heroForm.get('heading')?.value || 'Hero Heading' }}
+        </h2>
+
+        <p class="text-gray-600">
+          {{ heroForm.get('desc')?.value || 'Hero Description' }}
+        </p>
+
+      </div>
+
+      <!-- Form -->
+      <form
+        [formGroup]="heroForm"
+        (ngSubmit)="onSubmit()"
+        class="space-y-5"
+      >
+
+        <div>
+          <label class="block mb-2 font-medium">
+            Heading
+          </label>
+
+          <input
+            pInputText
+            formControlName="heading"
+            class="w-full"
+            placeholder="Enter Hero Heading"
+          />
+        </div>
+
+        <div>
+          <label class="block mb-2 font-medium">
+            Description
+          </label>
+
+          <textarea
+            pTextarea
+            rows="5"
+            formControlName="desc"
+            class="w-full"
+            placeholder="Enter Description"
+          ></textarea>
+        </div>
+
+        <div>
+          <label class="block mb-2 font-medium">
+            Hero Image
+          </label>
+
+          <input
+            type="file"
+            accept="image/*"
+            (change)="onFileSelect($event)"
+            class="w-full p-3 border rounded-lg"
+          />
+        </div>
+
+        @if(isUploading){
+        <p class="text-orange-500">
+          Uploading image...
+        </p>
+        }
+
+        <button
+          pButton
+          type="submit"
+          label="Save Changes"
+          icon="pi pi-save"
+          class="w-full"
+          [disabled]="heroForm.invalid || isUploading"
+        ></button>
+
+      </form>
+
+    </div>
+
+  </p-card>
+
+</div>

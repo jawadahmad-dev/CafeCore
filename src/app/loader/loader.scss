@@ -1,0 +1,156 @@
+.bakery-loader {
+  width: 180px;
+  height: 180px;
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  flex-direction: column;
+}
+
+/* =========================
+   BREAD
+========================= */
+.bread {
+  width: 95px;
+  height: 70px;
+
+  background: linear-gradient(
+    180deg,
+    #a66a3f,
+    #8c5633
+  );
+
+  border-radius: 60px 60px 25px 25px;
+
+  position: relative;
+
+  animation:
+    breadFloat 2.5s ease-in-out infinite,
+    breadRotate 6s linear infinite;
+
+  box-shadow:
+    0 10px 30px rgba(166, 106, 63, 0.25);
+}
+
+/* bread scoring */
+.bread-cut {
+  position: absolute;
+
+  width: 55px;
+  height: 8px;
+
+  background: rgba(255,255,255,.35);
+
+  border-radius: 999px;
+
+  top: 20px;
+  left: 20px;
+
+  transform: rotate(-18deg);
+}
+
+/* =========================
+   CRUMBS
+========================= */
+.crumb {
+  position: absolute;
+
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+  background: #c78d5d;
+
+  left: 50%;
+  top: 50%;
+
+  margin: -4px;
+
+  animation: orbit 2s linear infinite;
+
+  box-shadow: 0 0 10px rgba(199,141,93,.4);
+}
+
+.c1 { --a: 0deg; }
+.c2 { --a: 90deg; }
+.c3 { --a: 180deg; }
+.c4 { --a: 270deg; }
+
+.c1,
+.c2,
+.c3,
+.c4 {
+  transform: rotate(var(--a)) translateX(65px);
+}
+
+/* =========================
+   TEXT
+========================= */
+.loading-text {
+  margin-top: 25px;
+
+  font-size: 14px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+
+  color: #9b6c4a;
+
+  animation: fade 1.5s ease-in-out infinite;
+
+  font-family: "Inter", sans-serif;
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes orbit {
+  from {
+    transform:
+      rotate(var(--a))
+      translateX(65px);
+  }
+
+  to {
+    transform:
+      rotate(calc(var(--a) + 360deg))
+      translateX(65px);
+  }
+}
+
+@keyframes breadFloat {
+  0%,100% {
+    translate: 0 0;
+  }
+
+  50% {
+    translate: 0 -12px;
+  }
+}
+
+@keyframes breadRotate {
+  from {
+    rotate: -8deg;
+  }
+
+  50% {
+    rotate: 8deg;
+  }
+
+  to {
+    rotate: -8deg;
+  }
+}
+
+@keyframes fade {
+  0%,100% {
+    opacity: .4;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}

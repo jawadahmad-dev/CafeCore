@@ -1,0 +1,218 @@
+<div class="dashboard-overview">
+  <div class="welcome-section">
+    <h3>Welcome back, {{ authService.currentUser()?.name || 'Admin' }}!</h3>
+    <p>Here is an overview of the Nordic Crumb bakery system status.</p>
+  </div>
+
+  <div class="stats-grid">
+
+
+    <!-- Stat Card 2 -->
+    <div class="stat-card glass">
+      <div class="stat-icon-wrapper sage">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <span class="stat-value">{{ menuItems.length }}</span>
+        <span class="stat-label">Menu Offerings</span>
+      </div>
+    </div>
+
+   
+  </div>
+
+  <div class="management-grid">
+    <!-- Left Panel: Offerings List -->
+    <div class="items-list-panel glass">
+      <div class="panel-header">
+        <h4>Menu Offerings</h4>
+        <span class="items-count">{{ menuItems.length }} items</span>
+      </div>
+      
+      <div class="panel-body">
+        @if (menuItems.length === 0) {
+          <div class="empty-state">
+            <p>No offerings added yet.</p>
+          </div>
+        } @else {
+          <div class="dashboard-items-list">
+            @for (item of menuItems; track item.id) {
+              <div class="dashboard-item-row" [class.editing]="editingId === item.id">
+                <div class="item-icon-wrapper">
+                  @if (item.category === 'bread') {
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <path d="M4 11s2.5-3.5 8-3.5 8 3.5 8 3.5-1 6-8 6-8-6-8-6z" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M7 9v4M12 7.5v5M17 9v4" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  } @else if (item.category === 'pastries') {
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10S2 17.523 2 12A10 10 0 0 1 12 2z"/>
+                      <path d="M12 6a6 6 0 1 0 0 12 6 6 0 0 0 0-12z"/>
+                      <path d="M12 9a3 3 0 1 1 0 6 3 3 0 0 1 0-6z"/>
+                    </svg>
+                  } @else {
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <path d="M17 8h1a4 4 0 1 1 0 8h-1"/>
+                      <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8z"/>
+                      <path d="M6 2v3M10 2v3M14 2v3"/>
+                    </svg>
+                  }
+                </div>
+                
+                <div class="item-main-details">
+                  <div class="item-name-row">
+                    <span class="item-name">{{ item.name }}</span>
+                    @if (item.badge) {
+                      <span class="item-badge">{{ item.badge }}</span>
+                    }
+                  </div>
+                  <span class="item-category-label">{{ item.category }}</span>
+                </div>
+                
+                <span class="item-price">${{ item.price.toFixed(2) }}</span>
+                
+                <div class="item-actions">
+                  <button class="action-btn edit" (click)="editItem(item)" title="Edit item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                      <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                  </button>
+                  <button class="action-btn delete" (click)="deleteItem(item.id)" title="Delete item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="3 6 5 6 21 6"></polyline>
+                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                      <line x1="10" y1="11" x2="10" y2="17"></line>
+                      <line x1="14" y1="11" x2="14" y2="17"></line>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Right Panel: Management Form -->
+    <div class="form-panel glass">
+      <div class="panel-header">
+        <h4>{{ isEditing ? 'Edit Offering' : 'Add New Offering' }}</h4>
+      </div>
+      
+      <div class="panel-body">
+        @if (formSuccess) {
+          <div class="banner success animate-fade-in">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>{{ formSuccess }}</span>
+          </div>
+        }
+
+        @if (formError) {
+          <div class="banner error animate-fade-in">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span>{{ formError }}</span>
+          </div>
+        }
+
+        <form [formGroup]="menuForm" (ngSubmit)="onSubmit()" class="reactive-menu-form">
+          <!-- Item Name -->
+          <div class="form-group">
+            <label for="name" class="form-label">Item Name</label>
+            <input 
+              type="text" 
+              id="name" 
+              formControlName="name" 
+              class="form-control"
+              placeholder="e.g. Cinnamon Roll"
+              [class.invalid]="menuForm.get('name')?.touched && menuForm.get('name')?.invalid">
+            @if (menuForm.get('name')?.touched && menuForm.get('name')?.errors?.['required']) {
+              <span class="validation-msg">Name is required.</span>
+            }
+            @if (menuForm.get('name')?.touched && menuForm.get('name')?.errors?.['minlength']) {
+              <span class="validation-msg">Name must be at least 3 characters.</span>
+            }
+          </div>
+
+          <div class="form-row">
+            <!-- Category -->
+            <div class="form-group half">
+              <label for="category" class="form-label">Category</label>
+              <select id="category" formControlName="category" class="form-control select">
+                @for (cat of categories; track cat.value) {
+                  <option [value]="cat.value">{{ cat.label }}</option>
+                }
+              </select>
+            </div>
+
+            <!-- Price -->
+            <div class="form-group half">
+              <label for="price" class="form-label">Price ($)</label>
+              <input 
+                type="number" 
+                id="price" 
+                formControlName="price" 
+                class="form-control" 
+                step="0.01"
+                placeholder="0.00"
+                [class.invalid]="menuForm.get('price')?.touched && menuForm.get('price')?.invalid">
+              @if (menuForm.get('price')?.touched && menuForm.get('price')?.errors?.['required']) {
+                <span class="validation-msg">Price is required.</span>
+              }
+              @if (menuForm.get('price')?.touched && menuForm.get('price')?.errors?.['min']) {
+                <span class="validation-msg">Price must be greater than 0.</span>
+              }
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="form-group">
+            <label for="description" class="form-label">Description</label>
+            <textarea 
+              id="description" 
+              formControlName="description" 
+              class="form-control textarea" 
+              placeholder="Describe the flavors, baking method, ingredients..."
+              rows="3"
+              [class.invalid]="menuForm.get('description')?.touched && menuForm.get('description')?.invalid"></textarea>
+            @if (menuForm.get('description')?.touched && menuForm.get('description')?.errors?.['required']) {
+              <span class="validation-msg">Description is required.</span>
+            }
+            @if (menuForm.get('description')?.touched && menuForm.get('description')?.errors?.['minlength']) {
+              <span class="validation-msg">Description must be at least 10 characters.</span>
+            }
+          </div>
+
+          <!-- Badge -->
+          <div class="form-group">
+            <label for="badge" class="form-label">Badge (Optional)</label>
+            <input 
+              type="text" 
+              id="badge" 
+              formControlName="badge" 
+              class="form-control" 
+              placeholder="e.g. Signature, Bestseller, Organic">
+          </div>
+
+          <!-- Actions -->
+          <div class="form-actions-buttons">
+            @if (isEditing) {
+              <button type="button" class="btn btn-secondary" (click)="resetForm()">Cancel</button>
+            }
+            <button type="submit" class="btn btn-accent" [disabled]="isFormSubmitting">
+              {{ isEditing ? 'Save Changes' : 'Add Item' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

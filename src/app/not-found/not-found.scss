@@ -1,0 +1,120 @@
+.not-found-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-primary);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ambient-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+.glow-1 {
+  width: 400px;
+  height: 400px;
+  background-color: var(--accent-terracotta);
+  top: 10%;
+  left: 15%;
+}
+
+.glow-2 {
+  width: 350px;
+  height: 350px;
+  background-color: var(--accent-sage);
+  bottom: 10%;
+  right: 15%;
+}
+
+.not-found-card {
+  position: relative;
+  z-index: 2;
+  max-width: 520px;
+  width: 100%;
+  padding: 56px 48px;
+  border-radius: var(--radius-lg);
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.animate-fade-in {
+  animation: fadeInUp 0.7s ease;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.illustration {
+  margin: 0 auto 20px;
+  width: 140px;
+  height: 96px;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.error-code {
+  font-family: var(--font-serif);
+  font-size: 88px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--accent-terracotta);
+  opacity: 0.15;
+  margin-bottom: -20px;
+  letter-spacing: -0.04em;
+}
+
+.error-title {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.error-subtitle {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 36px;
+}
+
+.error-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  .btn-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 12px 22px;
+  }
+}
+
+@media (max-width: 480px) {
+  .not-found-card { padding: 40px 24px; }
+  .error-code { font-size: 64px; }
+  .error-title { font-size: 22px; }
+}

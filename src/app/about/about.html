@@ -1,0 +1,121 @@
+<section class="about-hero">
+  <div class="container">
+    <div class="about-hero-content">
+      <span class="section-label">Our Story</span>
+      <h1 class="about-hero-title">Baked with <em>Scandinavian</em><br>soul since 2018</h1>
+      <p class="about-hero-text">
+        Nordic Crumb was born from a simple belief: that the best bread in the world
+        comes from time, patience, and an unhurried respect for tradition.
+        We slow-ferment everything we make.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Story section ───────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="about-grid">
+      <!-- Decorative imagery block -->
+      <div class="about-imagery">
+        <div class="img-card img-card-main glass">
+          <div class="img-placeholder">
+            <svg viewBox="0 0 80 60" fill="none">
+              <ellipse cx="40" cy="42" rx="36" ry="12" fill="var(--accent-sand)" opacity="0.3"/>
+              <path d="M4 42 Q7 18 40 18 Q73 18 76 42 Q76 52 40 52 Q4 52 4 42Z"
+                    fill="var(--accent-sand)" opacity="0.6"/>
+              <path d="M18 30 Q22 24 26 30" stroke="var(--accent-terracotta)"
+                    stroke-width="1.5" stroke-linecap="round" opacity="0.8"/>
+              <path d="M37 24 Q41 18 45 24" stroke="var(--accent-terracotta)"
+                    stroke-width="1.5" stroke-linecap="round" opacity="0.8"/>
+              <path d="M56 30 Q60 24 64 30" stroke="var(--accent-terracotta)"
+                    stroke-width="1.5" stroke-linecap="round" opacity="0.8"/>
+            </svg>
+            <span>Artisan Sourdough</span>
+          </div>
+        </div>
+        <div class="img-card img-card-secondary glass">
+          <div class="img-placeholder small">
+            <svg viewBox="0 0 48 48" fill="none">
+              <circle cx="24" cy="24" r="18" fill="var(--accent-sage)" opacity="0.3"/>
+              <path d="M14 24 C14 18 18 14 24 14 C30 14 34 18 34 24"
+                    stroke="var(--accent-sage)" stroke-width="2" stroke-linecap="round"/>
+              <line x1="16" y1="28" x2="32" y2="28"
+                    stroke="var(--accent-terracotta)" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span>Slow Coffee Ritual</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Story text -->
+      <div class="about-story">
+        <span class="section-label">The Philosophy</span>
+        <h2 class="about-story-title">From grain to table,<br>nothing is rushed</h2>
+        <p class="about-text">
+          Every loaf we pull from the oven is the result of a 48-hour cold fermentation,
+          ancient grain heritage flours, and a wood-fired oven that we've been nursing
+          since the day we opened. Our bakers arrive at 3 am — before the city wakes —
+          so that when you walk through our door, everything is fresh.
+        </p>
+        <p class="about-text">
+          We source our flours directly from Nordic heritage grain farms, our cardamom from
+          small cooperatives in Sri Lanka, and our coffee beans from single-origin relationships
+          that span three continents.
+        </p>
+
+        <div class="story-perks">
+          @for (perk of perks; track perk.title) {
+            <div class="perk-item">
+              <svg class="perk-icon" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="1.8">
+                <path [attr.d]="perk.iconPath" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <div>
+                <h4>{{ perk.title }}</h4>
+                <p>{{ perk.desc }}</p>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Team section ────────────────────────────────────── -->
+<section class="section team-section">
+  <div class="container">
+    <div class="section-header" style="text-align:center; margin-bottom:56px">
+      <span class="section-label">Our Team</span>
+      <h2 class="section-title">The hands behind every loaf</h2>
+    </div>
+    <div class="team-grid">
+      @for (member of team; track member.name) {
+        <div class="team-card glass">
+          <div class="team-avatar">{{ member.initials }}</div>
+          <div class="team-info">
+            <h3 class="team-name">{{ member.name }}</h3>
+            <span class="team-role">{{ member.role }}</span>
+            <p class="team-bio">{{ member.bio }}</p>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ── Values banner ──────────────────────────────────── -->
+<section class="section values-section">
+  <div class="container">
+    <div class="values-grid">
+      @for (v of values; track v.title) {
+        <div class="value-card glass">
+          <div class="value-stat">{{ v.stat }}</div>
+          <h3 class="value-title">{{ v.title }}</h3>
+          <p class="value-text">{{ v.description }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>
