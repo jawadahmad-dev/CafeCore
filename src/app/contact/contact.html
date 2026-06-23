@@ -34,90 +34,39 @@
       
     </div>
     
-    <!-- Reservation Form Wrapper -->
+    <!-- Contact Form Wrapper -->
     <div class="reservation-card-wrapper">
-      @if (!reservationSubmitted()) {
+     
         <div class="reservation-form-container glass">
-          <h3 class="form-title">Table Reservation</h3>
-          <p class="form-sub">Choose a time for coffee & fresh pastries. Walk-ins are always welcome.</p>
-          
-          <form (submit)="submitReservation()">
-            <div class="form-group">
-              <label class="form-label" for="res-name">Name</label>
-              <input type="text" id="res-name" [(ngModel)]="reservation.name" name="name" required placeholder="Your name" class="form-control">
-            </div>
-            
-            <div class="form-group">
-              <label class="form-label" for="res-email">Email Address</label>
-              <input type="email" id="res-email" [(ngModel)]="reservation.email" name="email" required placeholder="hello@example.com" class="form-control">
-            </div>
-            
+          <h3 class="form-title">Get in Touch</h3>
+          <p class="form-sub">Have a question, feedback, or a special request? We'd love to hear from you.</p>
+
+          <form (submit)="submitContact()">
             <div class="form-row">
               <div class="form-group">
-                <label class="form-label" for="res-date">Date</label>
-                <input type="date" id="res-date" [(ngModel)]="reservation.date" name="date" required class="form-control">
+                <label class="form-label" for="con-name">Name</label>
+                <input type="text" id="con-name" [(ngModel)]="contactForm.name" name="name" required placeholder="Your full name" class="form-control">
               </div>
               <div class="form-group">
-                <label class="form-label" for="res-time">Time</label>
-                <select id="res-time" [(ngModel)]="reservation.time" name="time" class="form-control">
-                  <option value="08:00">08:00 AM</option>
-                  <option value="09:00">09:00 AM</option>
-                  <option value="10:00">10:00 AM</option>
-                  <option value="11:00">11:00 AM</option>
-                  <option value="12:00">12:00 PM</option>
-                  <option value="13:00">01:00 PM</option>
-                  <option value="14:00">02:00 PM</option>
-                  <option value="15:00">03:00 PM</option>
-                  <option value="16:00">04:00 PM</option>
-                </select>
+                <label class="form-label" for="con-email">Email Address</label>
+                <input type="email" id="con-email" [(ngModel)]="contactForm.email" name="email" required placeholder="hello@example.com" class="form-control">
               </div>
             </div>
-            
+
             <div class="form-group">
-              <label class="form-label" for="res-guests">Number of Guests</label>
-              <select id="res-guests" [(ngModel)]="reservation.guests" name="guests" class="form-control">
-                <option value="1">1 Person</option>
-                <option value="2">2 People</option>
-                <option value="3">3 People</option>
-                <option value="4">4 People</option>
-                <option value="5">5+ (Contact us by phone)</option>
-              </select>
+              <label class="form-label" for="con-title">Subject</label>
+              <input type="text" id="con-title" [(ngModel)]="contactForm.subject" name="subject" required placeholder="e.g. Catering inquiry, feedback, allergy question..." class="form-control">
             </div>
-            
-            <button type="submit" class="btn btn-accent btn-submit">Reserve Table</button>
+
+            <div class="form-group">
+              <label class="form-label" for="con-query">Message</label>
+              <textarea id="con-query" [(ngModel)]="contactForm.message" name="message" required placeholder="Tell us how we can help..." class="form-control textarea" rows="5"></textarea>
+            </div>
+
+            <button  type="submit" class="btn btn-accent disabled:opacity-50 btn-submit">Send Message</button>
           </form>
         </div>
-      } @else {
-        <!-- Interactive Success Modal Card -->
-        <div class="reservation-success glass text-center animate-fade-in">
-          <div class="success-icon-wrapper">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="success-icon">
-              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline>
-            </svg>
-          </div>
-          <h3 class="success-title">Bordet är reserverat!</h3>
-          <p class="success-message">Your table is confirmed, <strong>{{ reservation.name }}</strong>.</p>
-          
-          <div class="success-summary">
-            <div class="summary-row">
-              <span class="summary-label">Date</span>
-              <span class="summary-val">{{ reservation.date }}</span>
-            </div>
-            <div class="summary-row">
-              <span class="summary-label">Time</span>
-              <span class="summary-val">{{ reservation.time }} AM/PM</span>
-            </div>
-            <div class="summary-row">
-              <span class="summary-label">Guests</span>
-              <span class="summary-val">{{ reservation.guests }} {{ +reservation.guests === 1 ? 'Guest' : 'Guests' }}</span>
-            </div>
-          </div>
-          
-          <p class="success-note">We sent a confirmation email to {{ reservation.email }}. See you soon!</p>
-          
-          <button class="btn btn-primary" (click)="resetReservation()">Book Another Table</button>
-        </div>
-      }
+      
     </div>
 
   </div>

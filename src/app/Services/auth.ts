@@ -10,7 +10,6 @@ import {
 } from '@angular/fire/auth';
 import { Database, ref, get, set } from '@angular/fire/database';
 import { AppUser } from '../Core/models';
-import { DataSnapshot } from 'firebase/database';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly auth = inject(Auth);

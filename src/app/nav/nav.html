@@ -15,8 +15,7 @@
     <nav class="nav-links">
       <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
       <a routerLink="/menu" routerLinkActive="active">Menu</a>
-      <a routerLink="/about"  [class.active]="isRouteActive('/') && activeSection() === 'about'">About Us</a>
-      <a routerLink="/" fragment="testimonials" [class.active]="isRouteActive('/') && activeSection() === 'testimonials'">Reviews</a>
+      <a routerLink="/about" routerLinkActive="active"  [class.active]="isRouteActive('/') && activeSection() === 'about'">About Us</a>
       <a routerLink="/" fragment="gallery" [class.active]="isRouteActive('/') && activeSection() === 'gallery'">Gallery</a>
       <a routerLink="/contact" routerLinkActive="active">Contact</a>
     </nav>
@@ -45,7 +44,6 @@
       <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="closeMobileMenu()">Home</a>
       <a routerLink="/menu" routerLinkActive="active" (click)="closeMobileMenu()">Menu</a>
       <a routerLink="/" fragment="about" [class.active]="isRouteActive('/') && activeSection() === 'about'" (click)="closeMobileMenu()">About Us</a>
-      <a routerLink="/" fragment="testimonials" [class.active]="isRouteActive('/') && activeSection() === 'testimonials'" (click)="closeMobileMenu()">Reviews</a>
       <a routerLink="/" fragment="gallery" [class.active]="isRouteActive('/') && activeSection() === 'gallery'" (click)="closeMobileMenu()">Gallery</a>
       <a routerLink="/contact" routerLinkActive="active" (click)="closeMobileMenu()">Contact</a>
     </nav>

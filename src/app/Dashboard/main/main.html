@@ -146,11 +146,20 @@
             <!-- Category -->
             <div class="form-group half">
               <label for="category" class="form-label">Category</label>
-              <select id="category" formControlName="category" class="form-control select">
-                @for (cat of categories; track cat.value) {
-                  <option [value]="cat.value">{{ cat.label }}</option>
+              <input
+                type="text"
+                id="category"
+                formControlName="category"
+                class="form-control"
+                list="category-suggestions"
+                placeholder="e.g. bread, pastries, coffee"
+                autocomplete="off"
+                [class.invalid]="menuForm.get('category')?.touched && menuForm.get('category')?.invalid">
+              <datalist id="category-suggestions">
+                @for (cat of uniqueCategories; track cat) {
+                  <option [value]="cat">{{ cat }}</option>
                 }
-              </select>
+              </datalist>
             </div>
 
             <!-- Price -->

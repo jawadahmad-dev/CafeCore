@@ -1,12 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-
-interface Testimonial {
-  quote: string;
-  author: string;
-  role: string;
-  rating: number;
-}
+import { Rest } from '../Services/rest';
+import { Shared } from '../Services/shared';
+import { Hero } from '../Core/models/hero.model';
 
 @Component({
   selector: 'app-home',
@@ -14,42 +10,20 @@ interface Testimonial {
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
-export class Home {
-  // Testimonials
-  testimonials: Testimonial[] = [
-    {
-      quote: "The cardamom buns here are transcendent. Walking in at 8 AM and feeling that warm, yeast-sweet steam is my favorite weekend ritual.",
-      author: "Evelyn Thorne",
-      role: "Local Architect & Regular",
-      rating: 5
-    },
-    {
-      quote: "Nordic Crumb embodies beautiful Swedish fika. The country sourdough has a crunchy, caramelized crust and an incredibly airy interior.",
-      author: "Marcus Lindqvist",
-      role: "Artisan Baker & Patron",
-      rating: 5
-    },
-    {
-      quote: "Minimalist layout, exquisite coffee, and friendly service. The pour-over is exceptionally clean. Truly a neighborhood sanctuary.",
-      author: "Sofia Rostova",
-      role: "Design Journalist",
-      rating: 5
-    }
-  ];
+export class Home implements OnInit {
+  restService = inject(Rest);
+  sharedService = inject(Shared);
+  heroData: Hero | null = null;
 
-  // Selected testimonial index for carousel
-  activeTestimonial = signal(0);
-
-  setTestimonial(index: number) {
-    this.activeTestimonial.set(index);
+  ngOnInit(): void {
+    setTimeout(() => this.getHero());
   }
 
-  nextTestimonial() {
-    this.activeTestimonial.update(i => (i + 1) % this.testimonials.length);
-  }
-
-  prevTestimonial() {
-    this.activeTestimonial.update(i => (i - 1 + this.testimonials.length) % this.testimonials.length);
+  getHero() {
+    this.restService.getHero().then((res) => {
+      this.heroData = res.val();
+      console.log(res.val())
+    });
   }
 
   scrollToSection(sectionId: string) {

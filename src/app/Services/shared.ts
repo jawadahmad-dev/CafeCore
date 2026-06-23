@@ -12,10 +12,10 @@ export class Shared {
   private readonly secretkey = "qwerty321"
   $obsloading = this.loading.asObservable();
   show() {
-    this.loading.next(true);
+    setTimeout(() => this.loading.next(true));
   }
   hide() {
-    this.loading.next(false);
+    setTimeout(() => this.loading.next(false));
   }
   toaster(Serverty: string, Summary: string, Details?: string, Icon?: string, Life?: number) {
     this.toastService.add({ severity: Serverty, summary: Summary, detail: Details, icon: Icon, life: Life ? Life : 3000 });

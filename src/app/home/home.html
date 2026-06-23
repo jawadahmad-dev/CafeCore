@@ -2,100 +2,146 @@
 <section id="hero" class="hero-section">
   <div class="container hero-container animate-fade-in">
     <div class="hero-content">
-      <h1 class="hero-title">Crafted by hand,<br>baked with time.</h1>
+      <h1 class="hero-title">{{heroData?.heading}}</h1>
       <p class="hero-description">
-        Sourdough, slow coffee, and Swedish fika. Nordic Crumb is a minimalist neighborhood sanctuary dedicated to 100% natural wild fermentation, organic heritage grains, and the art of slow-paced mornings.
+        {{heroData?.desc}}
       </p>
       <div class="hero-actions">
         <button class="btn btn-primary" routerLink="/menu">Explore Menu</button>
         <button class="btn btn-secondary" routerLink="/contact">Book Table</button>
       </div>
       
-      <!-- Key Features Micro-Highlights -->
-      <div class="hero-highlights">
-        <div class="highlight-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="highlight-icon">
-            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-          </svg>
-          <span>100% Organic Grains</span>
-        </div>
-        <div class="highlight-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="highlight-icon">
-            <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
-          </svg>
-          <span>36h Fermentation</span>
-        </div>
-        <div class="highlight-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="highlight-icon">
-            <path d="M17 18a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2"></path><rect x="3" y="4" width="18" height="12" rx="2"></rect><circle cx="12" cy="10" r="2"></circle>
-          </svg>
-          <span>Direct Trade Beans</span>
-        </div>
-      </div>
+     
     </div>
-    
-    <!-- Hero Image Area -->
     <div class="hero-image-wrapper">
       <div class="hero-image-circle"></div>
-      <img src="hero_bakery.png" alt="Freshly baked sourdough and slow coffee" class="hero-image">
+      <img [src]="heroData?.image || 'hero_bakery.png'" alt="Freshly baked sourdough and slow coffee" class="hero-image">
     </div>
   </div>
 </section>
 
-<!-- Testimonials Section -->
-<section id="testimonials" class="section testimonials-section">
-  <div class="container text-center">
-    <span class="section-subtitle">Röster</span>
-    <h2 class="section-title">What Our Guests Say</h2>
-    
-    <div class="testimonial-carousel glass">
-      <div class="stars">
-        @for (star of [1,2,3,4,5]; track star) {
-          <svg viewBox="0 0 24 24" fill="currentColor" class="star-icon">
-            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+
+<!-- Why Choose Us Section -->
+<section id="features" class="section features-section">
+  <div class="container">
+    <div class="text-center section-header">
+      <span class="section-eyebrow">Why Visit Us</span>
+      <h2 class="section-title">Crafted with Heart &amp; Intention</h2>
+      <p class="section-description">Every detail — from our flour selection to your seat — is chosen to make your visit something worth returning for.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon-wrap">
+          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7z"/>
+            <circle cx="12" cy="9" r="2.5"/>
           </svg>
-        }
-      </div>
-      
-      <p class="testimonial-quote">
-        &ldquo;{{ testimonials[activeTestimonial()].quote }}&rdquo;
-      </p>
-      
-      <div class="testimonial-author">
-        <span class="author-name">{{ testimonials[activeTestimonial()].author }}</span>
-        <span class="author-role">{{ testimonials[activeTestimonial()].role }}</span>
-      </div>
-      
-      <!-- Carousel controls -->
-      <div class="carousel-nav">
-        <button class="nav-arrow" (click)="prevTestimonial()" aria-label="Previous Testimonial">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="15 18 9 12 15 6"/>
-          </svg>
-        </button>
-        
-        <div class="carousel-dots">
-          @for (test of testimonials; track $index) {
-            <span class="dot" [class.active]="$index === activeTestimonial()" (click)="setTestimonial($index)"></span>
-          }
         </div>
-        
-        <button class="nav-arrow" (click)="nextTestimonial()" aria-label="Next Testimonial">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="9 18 15 12 9 6"/>
+        <h3>Locally Sourced</h3>
+        <p>We partner with regional farms and mills to bring you the freshest, most ethically produced ingredients — within 100&nbsp;km of our kitchen.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon-wrap">
+          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 20V10"/>
+            <path d="M18 20V4"/>
+            <path d="M6 20v-6"/>
           </svg>
-        </button>
+        </div>
+        <h3>Slow Fermentation</h3>
+        <p>Our sourdough undergoes a 48-hour cold ferment, developing complex flavors and a beautifully open crumb that industrial baking can never replicate.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon-wrap">
+          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+            <line x1="6" y1="1" x2="6" y2="4"/>
+            <line x1="10" y1="1" x2="10" y2="4"/>
+            <line x1="14" y1="1" x2="14" y2="4"/>
+          </svg>
+        </div>
+        <h3>Single-Origin Coffee</h3>
+        <p>Our baristas work exclusively with traceable, direct-trade beans. Each cup tells the story of a farmer, a mountain, and a harvest season.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon-wrap">
+          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="3" y="3" width="7" height="7" rx="1"/>
+            <rect x="14" y="3" width="7" height="7" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1"/>
+            <rect x="14" y="14" width="7" height="7" rx="1"/>
+          </svg>
+        </div>
+        <h3>Warm Atmosphere</h3>
+        <p>Designed around the Nordic concept of <em>hygge</em> — cozy corners, natural oak, warm candlelight, and the quiet hum of a happy morning crowd.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon-wrap">
+          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </div>
+        <h3>Made with Love</h3>
+        <p>Our bakers arrive before sunrise — not because they have to, but because they love what they do. That passion is baked into every loaf and pastry.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon-wrap">
+          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <h3>Fresh Every Day</h3>
+        <p>Nothing sits overnight. Whatever isn't sold by closing is donated to the local shelter — so you always get today's best, freshest bake.</p>
       </div>
     </div>
-    
-      <button class="btn">Review Us</button>
+  </div>
+</section>
+
+<!-- Our Story Section -->
+<section id="our-story" class="section story-section">
+  <div class="container story-grid">
+    <div class="story-image-block">
+      <div class="story-img-main">
+        <img src="interior.png" alt="Inside the café">
+      </div>
+      <div class="story-img-badge">
+        <span class="badge-year">Est.</span>
+        <span class="badge-number">2018</span>
+        <span class="badge-label">Years of craft</span>
+      </div>
+    </div>
+    <div class="story-content">
+      <span class="section-eyebrow">Our Story</span>
+      <h2 class="section-title" style="text-align:left">A Corner Bakery Born from a Weekend Hobby</h2>
+      <p class="story-lead">What started as Sunday sourdough experiments in a small apartment kitchen has grown into a beloved neighborhood gathering place.</p>
+      <p class="story-text">Founder Mia Karlsson moved to the city with a single cast-iron Dutch oven and a well-worn copy of <em>The Bread Bible</em>. After years of sharing loaves with neighbors and colleagues, the demand was undeniable. CafeCore opened its doors on a rainy Tuesday morning in 2018 — and hasn't looked back since.</p>
+      <p class="story-text">Today our small team of bakers, baristas, and dreamers serves hundreds of guests each week, united by a single belief: that great food, made honestly, changes the texture of a day.</p>
+      <div class="story-stats">
+        <div class="stat-item">
+          <span class="stat-number">48h</span>
+          <span class="stat-label">Ferment time</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number">12+</span>
+          <span class="stat-label">Seasonal menu items</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number">3</span>
+          <span class="stat-label">Local farm partners</span>
+        </div>
+      </div>
+      <button class="btn btn-secondary" routerLink="/about">Read Our Full Story</button>
+    </div>
   </div>
 </section>
 
 <!-- Gallery Section -->
 <section id="gallery" class="section gallery-section">
   <div class="container text-center">
-    <span class="section-subtitle">Bilder</span>
     <h2 class="section-title">Cozy Moments</h2>
     <p class="section-description">A glimpse into our daily fermentation rituals, warm kitchen smells, and minimalist dining hall.</p>
     

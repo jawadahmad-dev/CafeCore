@@ -1,6 +1,8 @@
-import { Component, AfterViewInit, signal, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit, signal, inject, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import * as L from 'leaflet';
+import { Rest } from '../Services/rest';
+import { Shared } from '../Services/shared';
 
 @Component({
   selector: 'app-contact',
@@ -9,13 +11,14 @@ import * as L from 'leaflet';
   styleUrl: './contact.scss',
 })
 export class Contact implements AfterViewInit, OnDestroy {
-  // Reservation Form fields
-  reservation = {
+  restService = inject(Rest);
+  sharedService = inject(Shared)
+  // Contact Form fields
+  contactForm = {
     name: '',
     email: '',
-    date: '',
-    time: '09:00',
-    guests: '2'
+    subject: '',
+    message: ''
   };
 
   private map!: L.Map;
@@ -66,22 +69,36 @@ export class Contact implements AfterViewInit, OnDestroy {
       }
     }, 100);
   }
-  reservationSubmitted = signal(false);
 
-  submitReservation() {
-    if (this.reservation.name && this.reservation.email && this.reservation.date) {
-      this.reservationSubmitted.set(true);
+  contactSubmitted = signal(false);
+
+  submitContact() {
+    if (!(this.contactForm.email && this.contactForm.name && this.contactForm.subject && this.contactForm.message)) {
+      this.sharedService.toaster('error', 'Error', 'Please fill all the fields')
+      return;
     }
+
+    const payload = {
+      access_key: '8d942cc3-455b-42b0-9987-77397f3fe578',
+      name: this.contactForm.name,
+      email: this.contactForm.email,
+      subject: this.contactForm.subject,
+      message: this.contactForm.message
+    };
+
+    this.restService.sendContactForm(payload).subscribe({
+      next: () => {
+        this.sharedService.toaster('success', 'Sent', 'Contact form submitted successfully!')
+        this.resetContact();
+      },
+      error: (err) => {
+        this.sharedService.toaster('error', 'Error', err.message)
+      }
+    })
   }
 
-  resetReservation() {
-    this.reservation = {
-      name: '',
-      email: '',
-      date: '',
-      time: '09:00',
-      guests: '2'
-    };
-    this.reservationSubmitted.set(false);
+  resetContact() {
+    this.contactForm = { name: '', email: '', subject: '', message: '' };
+    this.contactSubmitted.set(false);
   }
 }

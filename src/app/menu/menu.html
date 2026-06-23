@@ -9,9 +9,11 @@
     <!-- Category Filters -->
     <div class="menu-filters">
       <button class="filter-btn" [class.active]="currentFilter() === 'all'" (click)="setFilter('all')">All Products</button>
-      <button class="filter-btn" [class.active]="currentFilter() === 'bread'" (click)="setFilter('bread')">Sourdough Loaves</button>
-      <button class="filter-btn" [class.active]="currentFilter() === 'pastries'" (click)="setFilter('pastries')">Fika Pastries</button>
-      <button class="filter-btn" [class.active]="currentFilter() === 'coffee'" (click)="setFilter('coffee')">Slow Coffee</button>
+      @for (cat of uniqueCategories(); track cat) {
+        <button class="filter-btn" [class.active]="currentFilter() === cat" (click)="setFilter(cat)">
+          {{ cat | titlecase }}
+        </button>
+      }
     </div>
 
     <!-- Single Menu Card -->

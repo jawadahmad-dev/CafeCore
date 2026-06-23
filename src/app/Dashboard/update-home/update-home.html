@@ -1,119 +1,199 @@
-<div class="max-w-5xl mx-auto p-6">
+<div class="update-home-page">
 
-  <p-card styleClass="shadow-lg border-round-2xl">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-header-left">
+      <h3>Update Home Hero</h3>
+      <p>Edit the headline, description, and image displayed on the public home page.</p>
+    </div>
+    <span class="page-badge">Home Page</span>
+  </div>
 
-    <ng-template pTemplate="header">
-      <div class="p-5 border-b">
-        <h2 class="text-2xl font-bold">
-          Update Home Hero Section
-        </h2>
-      </div>
-    </ng-template>
+  <div class="update-home-grid">
 
-    <div class="grid md:grid-cols-2 gap-8">
-
-      <!-- Preview -->
-      <div class="space-y-4">
-
-        <h3 class="font-semibold text-lg">
-          Live Preview
-        </h3>
-
-        <div
-          class="rounded-2xl overflow-hidden bg-surface-100 shadow-md"
-        >
-          @if(imagePreview){
-          <img
-            [src]="imagePreview"
-            alt="Hero Preview"
-            class="w-full h-72 object-cover"
-          />
-          }
-          @else{
-          <div
-            class="h-72 flex items-center justify-center text-gray-400"
-          >
-            No Image Selected
-          </div>
-          }
-        </div>
-
-        <h2 class="text-3xl font-bold">
-          {{ heroForm.get('heading')?.value || 'Hero Heading' }}
-        </h2>
-
-        <p class="text-gray-600">
-          {{ heroForm.get('desc')?.value || 'Hero Description' }}
-        </p>
-
+    <!-- Left Panel: Live Preview -->
+    <div class="preview-panel glass">
+      <div class="panel-header">
+        <h4>Live Preview</h4>
+        <span class="items-count">read-only</span>
       </div>
 
-      <!-- Form -->
-      <form
-        [formGroup]="heroForm"
-        (ngSubmit)="onSubmit()"
-        class="space-y-5"
-      >
+      <div class="panel-body preview-body">
 
-        <div>
-          <label class="block mb-2 font-medium">
-            Heading
-          </label>
-
-          <input
-            pInputText
-            formControlName="heading"
-            class="w-full"
-            placeholder="Enter Hero Heading"
-          />
+        <!-- Hero Image Preview -->
+        <div class="preview-image-wrapper">
+          @if (imagePreview) {
+            <img [src]="imagePreview" alt="Hero Preview" class="preview-image" />
+            <button type="button" class="action-btn delete reset-img-btn" (click)="resetPreview()" title="Reset image">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="1 4 1 10 7 10"></polyline>
+                <path d="M3.51 15a9 9 0 1 0 .49-3.51"></path>
+              </svg>
+            </button>
+          } @else {
+            <div class="preview-placeholder">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+              <span>No image selected</span>
+            </div>
+          }
         </div>
 
-        <div>
-          <label class="block mb-2 font-medium">
-            Description
-          </label>
-
-          <textarea
-            pTextarea
-            rows="5"
-            formControlName="desc"
-            class="w-full"
-            placeholder="Enter Description"
-          ></textarea>
+        <!-- Heading Preview -->
+        <div class="preview-text-block">
+          <p class="preview-label">Heading</p>
+          <h2 class="preview-heading">
+            {{ heroForm.get('heading')?.value || 'Hero Heading' }}
+          </h2>
         </div>
 
-        <div>
-          <label class="block mb-2 font-medium">
-            Hero Image
-          </label>
-
-          <input
-            type="file"
-            accept="image/*"
-            (change)="onFileSelect($event)"
-            class="w-full p-3 border rounded-lg"
-          />
+        <!-- Description Preview -->
+        <div class="preview-text-block">
+          <p class="preview-label">Description</p>
+          <p class="preview-desc">
+            {{ heroForm.get('desc')?.value || 'Hero description will appear here...' }}
+          </p>
         </div>
 
-        @if(isUploading){
-        <p class="text-orange-500">
-          Uploading image...
-        </p>
-        }
-
-        <button
-          pButton
-          type="submit"
-          label="Save Changes"
-          icon="pi pi-save"
-          class="w-full"
-          [disabled]="heroForm.invalid || isUploading"
-        ></button>
-
-      </form>
-
+      </div>
     </div>
 
-  </p-card>
+    <!-- Right Panel: Edit Form -->
+    <div class="form-panel glass">
+      <div class="panel-header">
+        <h4>Edit Hero Content</h4>
+      </div>
 
+      <div class="panel-body">
+
+        <!-- Success Banner -->
+        @if (saveSuccess) {
+          <div class="banner success animate-fade-in">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Hero section updated successfully!</span>
+          </div>
+        }
+
+        <!-- Error Banner -->
+        @if (saveError) {
+          <div class="banner error animate-fade-in">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span>{{ saveError }}</span>
+          </div>
+        }
+
+        <form [formGroup]="heroForm" (ngSubmit)="onSubmit()" class="reactive-menu-form">
+
+          <!-- Heading -->
+          <div class="form-group">
+            <label for="hero-heading" class="form-label">Heading</label>
+            <input
+              type="text"
+              id="hero-heading"
+              formControlName="heading"
+              class="form-control"
+              placeholder="e.g. Crafted by hand, baked with time."
+              [class.invalid]="heroForm.get('heading')?.touched && heroForm.get('heading')?.invalid"
+            />
+            @if (heroForm.get('heading')?.touched && heroForm.get('heading')?.errors?.['required']) {
+              <span class="validation-msg">Heading is required.</span>
+            }
+          </div>
+
+          <!-- Description -->
+          <div class="form-group">
+            <label for="hero-desc" class="form-label">Description</label>
+            <textarea
+              id="hero-desc"
+              formControlName="desc"
+              class="form-control textarea"
+              placeholder="Write a short paragraph introducing your brand..."
+              rows="5"
+              [class.invalid]="heroForm.get('desc')?.touched && heroForm.get('desc')?.invalid"
+            ></textarea>
+            @if (heroForm.get('desc')?.touched && heroForm.get('desc')?.errors?.['required']) {
+              <span class="validation-msg">Description is required.</span>
+            }
+          </div>
+
+          <!-- Image URL (hidden but validated) -->
+          <input type="hidden" formControlName="image" />
+
+          <!-- Image Upload -->
+          <div class="form-group">
+            <label for="hero-image-file" class="form-label">Hero Image <span class="form-label-optional">(Optional)</span></label>
+            <div class="upload-zone" [class.has-image]="imagePreview">
+              <input
+                type="file"
+                id="hero-image-file"
+                accept="image/*"
+                (change)="onFileSelect($event)"
+                class="upload-input"
+              />
+              <label for="hero-image-file" class="upload-label">
+                @if (isUploading) {
+                  <span class="upload-state uploading">
+                    <svg class="spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M21 12a9 9 0 1 1-6.22-8.56"></path>
+                    </svg>
+                    Uploading...
+                  </span>
+                } @else if (imagePreview) {
+                  <span class="upload-state has-file">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Image ready — click to replace
+                  </span>
+                } @else {
+                  <span class="upload-state empty">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="16 16 12 12 8 16"></polyline>
+                      <line x1="12" y1="12" x2="12" y2="21"></line>
+                      <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path>
+                    </svg>
+                    Click to upload an image
+                  </span>
+                }
+              </label>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="form-actions-buttons">
+            <button
+              type="submit"
+              class="btn btn-accent"
+              [disabled]="heroForm.invalid || isUploading || isSaving"
+            >
+              @if (isSaving) {
+                <svg class="spin btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 12a9 9 0 1 1-6.22-8.56"></path>
+                </svg>
+                Saving...
+              } @else {
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                  <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                  <polyline points="7 3 7 8 15 8"></polyline>
+                </svg>
+                Save Changes
+              }
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+  </div>
 </div>

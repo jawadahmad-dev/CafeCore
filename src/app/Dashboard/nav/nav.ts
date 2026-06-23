@@ -21,9 +21,11 @@ export class Nav implements OnInit {
   } | null = null
 
   ngOnInit(): void {
-    this.restService.getLoggedInUser().then((data) => {
-      this.userData = data.val();
-    })
+    setTimeout(() => {
+      this.restService.getLoggedInUser().then((data) => {
+        this.userData = data.val();
+      });
+    });
   }
 
   logout(): void {

@@ -23,16 +23,23 @@ export class Main implements OnInit {
   formSuccess = '';
   isFormSubmitting = false;
 
-  // Categories helper
-  categories = [
+  // Default category suggestions (shown when no items exist yet)
+  defaultCategories = [
     { value: 'bread', label: 'Sourdough Loaves' },
     { value: 'pastries', label: 'Fika Pastries' },
     { value: 'coffee', label: 'Slow Coffee' }
   ];
 
+  // Unique categories derived from loaded menu items
+  get uniqueCategories(): string[] {
+    const fromItems = [...new Set(this.menuItems.map(i => i.category))];
+    if (fromItems.length > 0) return fromItems;
+    return this.defaultCategories.map(c => c.value);
+  }
+
   ngOnInit(): void {
     this.initForm();
-    this.loadMenuItems();
+    setTimeout(() => this.loadMenuItems());
   }
 
   initForm(): void {
@@ -67,12 +74,13 @@ export class Main implements OnInit {
     this.formSuccess = '';
 
     const formValue = this.menuForm.value;
+    const badge = formValue.badge?.trim() || null;
     const itemData: MenuItem = {
       name: formValue.name.trim(),
       price: Number(formValue.price),
       description: formValue.description.trim(),
       category: formValue.category,
-      badge: formValue.badge ? formValue.badge.trim() : undefined
+      ...(badge ? { badge } : {})
     };
 
     if (this.isEditing && this.editingId) {

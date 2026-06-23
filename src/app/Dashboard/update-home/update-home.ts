@@ -4,14 +4,9 @@ import { Hero } from '../../Core/models/hero.model';
 import { Rest } from '../../Services/rest';
 import { Shared } from '../../Services/shared';
 
-import { InputTextModule } from 'primeng/inputtext';
-import { ButtonModule } from 'primeng/button';
-import { CardModule } from 'primeng/card';
-import { TextareaModule } from 'primeng/textarea';
-
 @Component({
   selector: 'app-update-home',
-  imports: [ReactiveFormsModule, TextareaModule, ButtonModule, CardModule, InputTextModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './update-home.html',
   styleUrl: './update-home.scss',
 })
@@ -19,28 +14,39 @@ export class UpdateHome implements OnInit {
   heroForm!: FormGroup;
   fb = inject(FormBuilder);
   restService = inject(Rest);
-  sharedService = inject(Shared)
+  sharedService = inject(Shared);
+
   heroData: Hero | null = null;
   imagePreview = '';
   isUploading = false;
+  isSaving = false;
+  saveSuccess = false;
+  saveError = '';
 
   ngOnInit(): void {
     this.formInit();
-    this.getHeroDate();
+    setTimeout(() => this.loadHeroData());
   }
-  getHeroDate() {
 
-    if (this.heroData) {
-      this.heroForm.patchValue(this.heroData);
-      this.imagePreview = this.heroData.image;
-    }
-  }
   formInit() {
     this.heroForm = this.fb.group({
       heading: ['', Validators.required],
-      image: ['', Validators.required],
-      desc: ['', Validators.required]
-    })
+      image: [''],
+      desc: ['', Validators.required],
+    });
+  }
+
+  loadHeroData() {
+    this.restService.getHero().then((snap) => {
+      if (snap.exists()) {
+        const data = snap.val() as Hero;
+        this.heroData = data;
+        this.heroForm.patchValue(data);
+        this.imagePreview = data.image;
+      }
+    }).catch((err) => {
+      this.sharedService.toaster('error', 'Load Error', err.message);
+    });
   }
 
   onSubmit() {
@@ -49,36 +55,46 @@ export class UpdateHome implements OnInit {
       return;
     }
 
+    this.isSaving = true;
+    this.saveSuccess = false;
+    this.saveError = '';
+
     const payload: Hero = this.heroForm.value;
 
-    console.log(payload);
-
+    this.restService.setHero(payload).then(() => {
+      this.isSaving = false;
+      this.saveSuccess = true;
+      this.sharedService.toaster('success', 'Saved!', 'Hero section updated successfully.');
+    }).catch((err) => {
+      this.isSaving = false;
+      this.saveError = err.message ?? 'Failed to save. Please try again.';
+      this.sharedService.toaster('error', 'Save Error', this.saveError);
+    });
   }
 
   onFileSelect(event: Event) {
     const input = event.target as HTMLInputElement;
-
     if (!input.files?.length) return;
-
-    const file = input.files[0];
-
-    this.uploadImage(file);
+    this.uploadImage(input.files[0]);
   }
+
   uploadImage(file: File) {
     this.isUploading = true;
     this.restService.uploadImage(file).subscribe({
       next: (res: any) => {
-        this.heroForm.patchValue({
-          image: res.secure_url
-        });
+        this.heroForm.patchValue({ image: res.secure_url });
         this.imagePreview = res.secure_url;
         this.isUploading = false;
       },
       error: (err) => {
         this.isUploading = false;
-        this.sharedService.toaster('error', 'Upload Error', err.message)
-      }
-    })
+        this.sharedService.toaster('error', 'Upload Error', err.message);
+      },
+    });
   }
 
+  resetPreview() {
+    this.imagePreview = this.heroData?.image ?? '';
+    this.heroForm.patchValue({ image: this.heroData?.image ?? '' });
+  }
 }

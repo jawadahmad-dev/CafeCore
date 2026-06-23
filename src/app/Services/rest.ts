@@ -9,7 +9,7 @@ import {
   remove,
   DataSnapshot
 } from '@angular/fire/database';
-import { from, map } from 'rxjs';
+import { from, map, Observable } from 'rxjs';
 import { Auth } from '@angular/fire/auth';
 import { Shared } from './shared';
 import { HttpClient } from '@angular/common/http';
@@ -20,7 +20,7 @@ export interface MenuItem {
   name: string;
   price: number;
   description: string;
-  category: 'bread' | 'pastries' | 'coffee';
+  category: string;
   badge?: string;
 }
 
@@ -108,16 +108,36 @@ export class Rest {
 
 
 
-  // ImageUpload To Cloudenary
+  // ── Hero Section ─────────────────────────────────────────────────────────
+
+  getHero(): Promise<DataSnapshot> {
+    this.sharedService.show();
+    return get(ref(this.db, 'hero')).finally(() => {
+      this.sharedService.hide();
+    });
+  }
+
+  setHero(data: { heading: string; desc: string; image: string }): Promise<void> {
+    this.sharedService.show();
+    return set(ref(this.db, 'hero'), data).finally(() => {
+      this.sharedService.hide();
+    });
+  }
+
+  // ImageUpload To Cloudinary
   uploadImage(file: File) {
     const formData = new FormData();
 
     formData.append('file', file);
-    formData.append('upload_preset', 'YOUR_UPLOAD_PRESET');
+    formData.append('upload_preset', 'nordic_crumb');
 
     return this.http.post(
-      'CLOUDINARY_URL=cloudinary://423713357375396:**********@dsyszhzvu',
+      'https://api.cloudinary.com/v1_1/dsyszhzvu/image/upload',
       formData
     );
+  }
+
+  sendContactForm(payload: any): Observable<any> {
+    return this.http.post('https://api.web3forms.com/submit', payload);
   }
 }
