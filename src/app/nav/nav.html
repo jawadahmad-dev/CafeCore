@@ -43,7 +43,7 @@
     <nav class="mobile-nav-links">
       <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="closeMobileMenu()">Home</a>
       <a routerLink="/menu" routerLinkActive="active" (click)="closeMobileMenu()">Menu</a>
-      <a routerLink="/" fragment="about" [class.active]="isRouteActive('/') && activeSection() === 'about'" (click)="closeMobileMenu()">About Us</a>
+      <a routerLink="/about" routerLinkActive="active" [class.active]="isRouteActive('/') && activeSection() === 'about'" (click)="closeMobileMenu()">About Us</a>
       <a routerLink="/" fragment="gallery" [class.active]="isRouteActive('/') && activeSection() === 'gallery'" (click)="closeMobileMenu()">Gallery</a>
       <a routerLink="/contact" routerLinkActive="active" (click)="closeMobileMenu()">Contact</a>
     </nav>
